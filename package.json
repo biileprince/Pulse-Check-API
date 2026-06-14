@@ -1,0 +1,42 @@
+{
+  "name": "pulse-check-api",
+  "version": "1.0.0",
+  "description": "Dead Man's Switch API — monitors device heartbeats and fires alerts when devices go silent",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "nodemon --exec ts-node src/server.ts",
+    "build": "tsc",
+    "start": "tsc && node dist/server.js",
+    "test": "jest --forceExit --detectOpenHandles",
+    "lint": "eslint src/ --ext .ts"
+  },
+  "keywords": ["monitoring", "heartbeat", "dead-mans-switch"],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.25.0",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "express-validator": "^7.3.2",
+    "helmet": "^8.2.0",
+    "morgan": "^1.11.0",
+    "uuid": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jest": "^30.0.0",
+    "@types/morgan": "^1.9.10",
+    "@types/node": "^25.9.3",
+    "@types/supertest": "^7.2.0",
+    "eslint": "^10.5.0",
+    "jest": "^30.4.2",
+    "nodemon": "^3.1.14",
+    "prettier": "^3.8.4",
+    "supertest": "^7.2.2",
+    "ts-jest": "^29.4.11",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}
