@@ -2,11 +2,22 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import swaggerUi from 'swagger-ui-express';
+import fs from 'fs';
+import path from 'path';
 import monitorRoutes from './routes/monitor.routes';
 import statsRoutes from './routes/stats.routes';
 import errorHandler from './middleware/errorHandler';
 
 const app: Application = express();
+
+// Load Swagger document if it exists
+const swaggerFilePath = path.join(__dirname, 'swagger-output.json');
+if (fs.existsSync(swaggerFilePath)) {
+  const swaggerDocument = JSON.parse(fs.readFileSync(swaggerFilePath, 'utf8'));
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+}
+
 
 // Security headers
 app.use(helmet());

@@ -4,13 +4,18 @@
   "description": "Dead Man's Switch API — monitors device heartbeats and fires alerts when devices go silent",
   "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node src/server.ts",
-    "build": "tsc",
-    "start": "tsc && node dist/server.js",
+    "swagger": "node swagger.js",
+    "dev": "pnpm run swagger && nodemon --exec ts-node src/server.ts",
+    "build": "pnpm run swagger && tsc",
+    "start": "node dist/server.js",
     "test": "jest --forceExit --detectOpenHandles",
     "lint": "eslint src/ --ext .ts"
   },
-  "keywords": ["monitoring", "heartbeat", "dead-mans-switch"],
+  "keywords": [
+    "monitoring",
+    "heartbeat",
+    "dead-mans-switch"
+  ],
   "author": "",
   "license": "ISC",
   "packageManager": "pnpm@10.25.0",
@@ -30,11 +35,13 @@
     "@types/morgan": "^1.9.10",
     "@types/node": "^25.9.3",
     "@types/supertest": "^7.2.0",
+    "@types/swagger-ui-express": "^4.1.8",
     "eslint": "^10.5.0",
     "jest": "^30.4.2",
     "nodemon": "^3.1.14",
     "prettier": "^3.8.4",
     "supertest": "^7.2.2",
+    "swagger-autogen": "^2.23.7",
     "ts-jest": "^29.4.11",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
