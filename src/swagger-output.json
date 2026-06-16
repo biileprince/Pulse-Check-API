@@ -39,10 +39,85 @@
     },
     "/monitors/": {
       "post": {
+        "tags": [
+          "Monitors"
+        ],
+        "summary": "Register a new monitor",
         "description": "",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Monitor configuration",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "device-123"
+                },
+                "timeout": {
+                  "type": "number",
+                  "example": 60
+                },
+                "alert_email": {
+                  "type": "string",
+                  "example": "admin@critmon.com"
+                }
+              }
+            }
+          }
+        ],
         "responses": {
           "201": {
-            "description": "Created"
+            "description": "Monitor   successfully",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Monitor 'device-123' created. Timer set for 60s."
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "example": "device-123"
+                    },
+                    "timeout": {
+                      "type": "number",
+                      "example": 60
+                    },
+                    "alertEmail": {
+                      "type": "string",
+                      "example": "admin@critmon.com"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "active"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "example": "2026-06-16T12:00:00.000Z"
+                    },
+                    "lastHeartbeat": {},
+                    "updatedAt": {
+                      "type": "string",
+                      "example": "2026-06-16T12:00:00.000Z"
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           },
           "400": {
             "description": "Bad Request"
@@ -50,10 +125,63 @@
         }
       },
       "get": {
+        "tags": [
+          "Monitors"
+        ],
+        "summary": "List all monitors",
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "List of all registered monitors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "count": {
+                  "type": "number",
+                  "example": 1
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "example": "device-123"
+                      },
+                      "timeout": {
+                        "type": "number",
+                        "example": 60
+                      },
+                      "alertEmail": {
+                        "type": "string",
+                        "example": "admin@critmon.com"
+                      },
+                      "status": {
+                        "type": "string",
+                        "example": "active"
+                      },
+                      "createdAt": {
+                        "type": "string",
+                        "example": "2026-06-16T12:00:00.000Z"
+                      },
+                      "lastHeartbeat": {},
+                      "updatedAt": {
+                        "type": "string",
+                        "example": "2026-06-16T12:00:00.000Z"
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }
@@ -148,10 +276,61 @@
     },
     "/stats/": {
       "get": {
+        "tags": [
+          "Stats"
+        ],
+        "summary": "Get system-wide health summary",
         "description": "",
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "System health summary",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "success": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "monitors": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "example": 5
+                        },
+                        "active": {
+                          "type": "number",
+                          "example": 4
+                        },
+                        "down": {
+                          "type": "number",
+                          "example": 0
+                        },
+                        "paused": {
+                          "type": "number",
+                          "example": 1
+                        }
+                      }
+                    },
+                    "alerts": {
+                      "type": "object",
+                      "properties": {
+                        "total": {
+                          "type": "number",
+                          "example": 12
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
           }
         }
       }

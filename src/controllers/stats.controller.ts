@@ -9,6 +9,20 @@ import { alertStore } from '../store/alertStore';
 export const statsController = {
   /** GET /stats */
   getStats(_req: Request, res: Response): void {
+    /*
+      #swagger.tags = ['Stats']
+      #swagger.summary = 'Get system-wide health summary'
+      #swagger.responses[200] = {
+        description: 'System health summary',
+        schema: {
+          success: true,
+          data: {
+            monitors: { total: 5, active: 4, down: 0, paused: 1 },
+            alerts: { total: 12 }
+          }
+        }
+      }
+    */
     const monitors = monitorStore.getAll();
     const alerts = alertStore.getAll();
 
