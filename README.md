@@ -52,33 +52,97 @@ Shows the lifecycle states of a monitor.
 
 ## 3. API Documentation
 
+For the full interactive API documentation, run the server and navigate to `http://localhost:3000/api-docs` (Swagger UI).
+
 ### Register a Monitor
 `POST /monitors`
-- **Body**: `{"id": "device-123", "timeout": 60, "alert_email": "admin@critmon.com"}`
-- **Response** (201): Confirmation message and monitor object. Starts the timer.
+Registers a new device monitor and starts its countdown timer.
+- **Request Body** (`application/json`):
+  ```json
+  {
+    "id": "device-123",
+    "timeout": 60,
+    "alert_email": "admin@critmon.com"
+  }
+  ```
+- **Success Response** (`201 Created`):
+  ```json
+  {
+    "success": true,
+    "message": "Monitor 'device-123' created. Timer set for 60s.",
+    "data": {
+      "id": "device-123",
+      "timeout": 60,
+      "alertEmail": "admin@critmon.com",
+      "status": "active",
+      "createdAt": "2026-06-16T12:00:00.000Z",
+      "lastHeartbeat": null,
+      "updatedAt": "2026-06-16T12:00:00.000Z"
+    }
+  }
+  ```
 
 ### Send a Heartbeat
 `POST /monitors/:id/heartbeat`
-- **Response** (200): Resets the timer. If the monitor was paused or down, it becomes active again.
+Pings the server to indicate the device is alive. Resets the timer. If paused or down, it becomes active.
+- **Success Response** (`200 OK`):
+  ```json
+  {
+    "success": true,
+    "message": "Heartbeat received. Timer reset to 60s.",
+    "data": { ...monitor details... }
+  }
+  ```
 
 ### Pause a Monitor (Snooze)
 `POST /monitors/:id/pause`
-- **Response** (200): Pauses the countdown timer. No alerts will fire. Sending a heartbeat resumes it.
+Pauses the countdown timer (e.g., for maintenance). No alerts will fire. Sending a heartbeat resumes it.
+- **Success Response** (`200 OK`):
+  ```json
+  {
+    "success": true,
+    "message": "Monitor 'device-123' paused. No alerts will fire.",
+    "data": { ...monitor details... }
+  }
+  ```
 
 ### Get All Monitors
 `GET /monitors`
-- **Response** (200): List of all registered monitors.
+- **Success Response** (`200 OK`):
+  ```json
+  {
+    "success": true,
+    "count": 1,
+    "data": [ { ...monitor details... } ]
+  }
+  ```
 
 ### Get a Specific Monitor
 `GET /monitors/:id`
-- **Response** (200): Details of a specific monitor.
+- **Success Response** (`200 OK`):
+  ```json
+  {
+    "success": true,
+    "data": { ...monitor details... }
+  }
+  ```
 
 ### Delete a Monitor
 `DELETE /monitors/:id`
-- **Response** (200): Removes the monitor and clears its timer.
+Removes the monitor and clears its timer.
+- **Success Response** (`200 OK`):
+  ```json
+  {
+    "success": true,
+    "message": "Monitor 'device-123' deleted."
+  }
+  ```
 
-### Alert Trigger
-*Internal Mechanism:* When a timer expires (reaches 0), the system logs a JSON alert to the console and changes the monitor's status to `down`.
+### Alert Trigger (Internal)
+When a timer expires (reaches 0), the system logs a JSON alert to the console and changes the monitor's status to `down`.
+```json
+{"ALERT":"Device device-123 is down!","time":"2026-06-16T12:01:00.000Z"}
+```
 
 ## 4. The Developer's Choice
 
@@ -88,7 +152,29 @@ Shows the lifecycle states of a monitor.
 CritMon doesn't just need real-time alerts; they need to investigate incidents after the fact. A device might go down and recover multiple times in a day. 
 I added:
 1. `GET /monitors/:id/alerts` - Returns a history of all alert events for a specific device.
-2. `GET /stats` - Returns a high-level system summary (total monitors, active vs down vs paused, total historical alerts).
+  ```json
+  {
+    "success": true,
+    "count": 1,
+    "data": [
+      {
+        "monitorId": "device-123",
+        "alertedAt": "2026-06-16T12:01:00.000Z",
+        "message": "Device device-123 is down!"
+      }
+    ]
+  }
+  ```
+2. `GET /stats` - Returns a high-level system summary.
+  ```json
+  {
+    "success": true,
+    "data": {
+      "monitors": { "total": 5, "active": 4, "down": 0, "paused": 1 },
+      "alerts": { "total": 12 }
+    }
+  }
+  ```
 
 This makes the system much more robust for operations and support engineers to review past behavior, not just current state.
 
