@@ -90,7 +90,15 @@ Pings the server to indicate the device is alive. Resets the timer. If paused or
   {
     "success": true,
     "message": "Heartbeat received. Timer reset to 60s.",
-    "data": { ...monitor details... }
+    "data": {
+      "id": "device-123",
+      "timeout": 60,
+      "alertEmail": "admin@critmon.com",
+      "status": "active",
+      "createdAt": "2026-06-16T12:00:00.000Z",
+      "lastHeartbeat": "2026-06-16T12:05:00.000Z",
+      "updatedAt": "2026-06-16T12:05:00.000Z"
+    }
   }
   ```
 
@@ -102,7 +110,15 @@ Pauses the countdown timer (e.g., for maintenance). No alerts will fire. Sending
   {
     "success": true,
     "message": "Monitor 'device-123' paused. No alerts will fire.",
-    "data": { ...monitor details... }
+    "data": {
+      "id": "device-123",
+      "timeout": 60,
+      "alertEmail": "admin@critmon.com",
+      "status": "paused",
+      "createdAt": "2026-06-16T12:00:00.000Z",
+      "lastHeartbeat": "2026-06-16T12:05:00.000Z",
+      "updatedAt": "2026-06-16T12:06:00.000Z"
+    }
   }
   ```
 
@@ -113,7 +129,17 @@ Pauses the countdown timer (e.g., for maintenance). No alerts will fire. Sending
   {
     "success": true,
     "count": 1,
-    "data": [ { ...monitor details... } ]
+    "data": [
+      {
+        "id": "device-123",
+        "timeout": 60,
+        "alertEmail": "admin@critmon.com",
+        "status": "active",
+        "createdAt": "2026-06-16T12:00:00.000Z",
+        "lastHeartbeat": "2026-06-16T12:05:00.000Z",
+        "updatedAt": "2026-06-16T12:05:00.000Z"
+      }
+    ]
   }
   ```
 
@@ -123,7 +149,15 @@ Pauses the countdown timer (e.g., for maintenance). No alerts will fire. Sending
   ```json
   {
     "success": true,
-    "data": { ...monitor details... }
+    "data": {
+      "id": "device-123",
+      "timeout": 60,
+      "alertEmail": "admin@critmon.com",
+      "status": "active",
+      "createdAt": "2026-06-16T12:00:00.000Z",
+      "lastHeartbeat": "2026-06-16T12:05:00.000Z",
+      "updatedAt": "2026-06-16T12:05:00.000Z"
+    }
   }
   ```
 
